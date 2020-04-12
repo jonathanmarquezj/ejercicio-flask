@@ -14,7 +14,7 @@ def inicio():
 
 # Pagina potencia
 @app.route('/potencia/<int:base>/<int:exponente>',methods=["GET","POST"])
-def saluda(base,exponente):
+def potencia(base,exponente):
 	if exponente >= 1:
 		resultado=base*exponente
 	if exponente == 0:
@@ -23,6 +23,18 @@ def saluda(base,exponente):
 		resultado=1/base * math.abs(exponente)
 	return render_template("potencia.html",base=base,exponente=exponente,resultado=resultado)
 
+# Pagina cuenta letras
+@app.route('/cuenta/<palabra>/<letra>',methods=["GET","POST"])
+def scuenta(palabra,letra):
+	if len(letra) != 1:
+		abort(404) # Devuelve el error 404
+	else:
+		contador=0
+		for i in palabra:
+			if i == letra:
+				contador=contador+1
+
+	return render_template("cuenta.html",palabra=palabra,letra=letra,contador=contador)
 
 
 
