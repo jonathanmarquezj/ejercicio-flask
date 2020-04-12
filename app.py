@@ -1,5 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
+from lxml import etree
 import math
+
+doc = etree.parse('libros.xml')
 app = Flask(__name__)
 
 #                EJEMPLO
@@ -25,7 +28,7 @@ def potencia(base,exponente):
 
 # Pagina cuenta letras
 @app.route('/cuenta/<palabra>/<letra>',methods=["GET","POST"])
-def scuenta(palabra,letra):
+def cuenta(palabra,letra):
 	if len(letra) != 1:
 		abort(404) # Devuelve el error 404
 	else:
@@ -36,6 +39,19 @@ def scuenta(palabra,letra):
 
 	return render_template("cuenta.html",palabra=palabra,letra=letra,contador=contador)
 
+# Pagina libro
+@app.route('/libro/<int:codigo>',methods=["GET","POST"])
+def libro(codigo):
+	try:
+		nombre = doc.xpath('/biblioteca/libro[codigo="%s"]//titulo/text()'%codigo)
+		autor = doc.xpath('/biblioteca/libro[codigo="%s"]//autor/text()'%codigo)
+
+		nombre=nombre[0]
+		autor=autor[0]
+	except:
+		abort(404) # Devuelve el error 404
+
+	return render_template("libro.html",nombre=nombre,autor=autor)
 
 
 app.run(
