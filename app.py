@@ -57,5 +57,5 @@ def libro(codigo):
 app.run(
 	"0.0.0.0", # Direccion ip, si es 0.0.0.0 es cualquier ip, si es 127,0,0,1 solo puede entrar desde el mismo equipo.
 	8000, # Puerto de la web
-	debug=True #Es para depurar la página, que si tenemos algun error se nos muestra en el navegador web.
+	debug=False #Es para depurar la página, que si tenemos algun error se nos muestra en el navegador web.
         ) # Ejecuta el servidor web
